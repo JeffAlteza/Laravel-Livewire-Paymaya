@@ -5,39 +5,29 @@ use app\Http\Livewire\StudentData;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 // Route::get('/main', function () {
 //     return view('layout.main');
 // });
 
-Route::get('/', function () {
-    return view('layout.login');
-})->name('login');
+Route::view('/', 'layout.login')->name('login');
 
-Route::get('/register', function () {
-    return view('layout.register');
-});
+Route::view('/register', 'layout.register');
 
-Route::get('/sidebar', function () {
-    return view('layout.sidebar');
-});
+Route::view('/sidebar', 'layout.sidebar');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/dashboard', function () {
-        return view('layout.dashboard');
-    });
-    Route::get('/main', function () {
-        return view('layout.main');
-    });
-    Route::get('/payment_history', function () {
-        return view('layout.payment_history');
-    });
-    
+    Route::view('/dashboard', 'layout.dashboard');
+    Route::view('/main', 'layout.main');
+    Route::view('/payment_history', 'layout.payment_history');
 });
 
 // for resetting password from email
-Route::get('/forgot-password', function () {
-    return view('auth.forgot_password');
-})->middleware('guest')->name('password.request');
+Route::view('/forgot-password', 'auth.forgot_password')
+    ->middleware('guest')
+    ->name('password.request');
 
 Route::post('/reset-password', function (Request $request) {
     $request->validate(['email' => 'required|email']);
@@ -55,9 +45,7 @@ Route::get('/reset-password/{token}', function ($token) {
     return view('auth.reset-password', ['token' => $token]);
 })->middleware('guest')->name('password.reset');
 
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+
  
 Route::post('/reset-password', function (Request $request) {
     $request->validate([
