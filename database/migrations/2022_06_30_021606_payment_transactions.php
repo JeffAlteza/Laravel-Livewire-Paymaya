@@ -15,7 +15,7 @@ return new class extends Migration
     {
         //
         Schema::create('payment_transactions', function (Blueprint $table) {
-            $table->id('id')->nullable();
+            $table->id('id');
             $table->string('student_ref_no')->nullable();
             $table->string('fullname');
             $table->string('email');
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('payment_method');
             $table->string('paymaya_ref_no');
             $table->string('transaction_id');
+            $table->string('status');
             $table->timestamps();
         });
     }
